@@ -12,9 +12,12 @@ public class Programa {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("exemplo-jpa");
         EntityManager em = emf.createEntityManager();
 
-        //Buscar objeto no DB, converter para obj e instanciar obj
+        //Para excluir elementos precisa de uma das seguintes condições: acabou de ser adicionado no DB
+        // ou acabou de ser recuperado (find)
         Pessoa p = em.find(Pessoa.class, 2);
-        System.out.println(p);
+        em.getTransaction().begin();
+        em.remove(p);
+        em.getTransaction().commit();
 
         System.out.println("Pronto!");
         em.close();
